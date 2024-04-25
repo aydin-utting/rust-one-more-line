@@ -400,18 +400,19 @@ impl ggez::event::EventHandler<GameError> for State {
 
         for n in &self.nodes {
             n.add_mesh(mb, coord_origin, self.screen_width, self.screen_height);
-            if filter_deadly_nodes(&self.player, n) {
-                mb.line(
-                    &[
-                        wtsc(self.player.pos),
-                        wtsc(get_cross_point(&self.player, n)),
-                        wtsc(n.pos),
-                    ],
-                    1.0,
-                    n.color,
-                )
-                .unwrap();
-            }
+            // // Uncomment this block to show valid node lines
+            // if filter_deadly_nodes(&self.player, n) {
+            //     mb.line(
+            //         &[
+            //             wtsc(self.player.pos),
+            //             wtsc(get_cross_point(&self.player, n)),
+            //             wtsc(n.pos),
+            //         ],
+            //         1.0,
+            //         n.color,
+            //     )
+            //     .unwrap();
+            // }
         }
 
         let add_line = |mb: &mut graphics::MeshBuilder, node: &Node| {
@@ -433,8 +434,7 @@ impl ggez::event::EventHandler<GameError> for State {
         let add_target_line = |mb: &mut graphics::MeshBuilder, node: &Node| {
             let node_pos = wtsc(node.pos);
             let player_pos = wtsc(self.player.pos);
-            mb.line(&[node_pos, player_pos], 5.0, graphics::Color::BLUE)
-                .unwrap();
+            mb.line(&[node_pos, player_pos], 5.0, node.color).unwrap();
         };
 
         match self.attached_node {
